@@ -9,10 +9,27 @@ import { ScreenStackHeaderRightView } from "react-native-screens";
 import * as SQLite from "expo-sqlite";
 import NotesStack from "./screens/NotesStack";
 import AddScreen from "./screens/AddScreen";
+import UpdateScreen from "./screens/UpdateScreen";
 
 /*const db = SQLite.openDatabase("notes.db"); moved to MotesScreen*/
 
 const Stack = createStackNavigator();
+
+function Update(route, navigation){
+  console.log({route}, "update...");
+  return(
+    <View style= {{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text> Here! {route.params}</Text>
+
+          <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={[styles.button, styles.cancelButton]}
+        >
+          <Text style={styles.buttonText}>Cancel</Text>
+        </TouchableOpacity>
+    </View>
+  )
+}
 
 export default function App() {
   return (
@@ -24,6 +41,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Add Note" component={AddScreen} />
+        <Stack.Screen name="Update Note" component={Update} />
       </Stack.Navigator>
     </NavigationContainer>
   );

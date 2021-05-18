@@ -8,8 +8,11 @@ import {
 } from "react-native";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import * as SQLite from "expo-sqlite";
+import * as FileSystem from "expo-file-system";
+import { NavigationContainer } from "@react-navigation/native";
 
 const db = SQLite.openDatabase("notes.db");
+console.log(FileSystem.documentDirectory);
 let count = 0;
 
 export default function NotesScreen({ navigation, route }) {
@@ -88,6 +91,9 @@ export default function NotesScreen({ navigation, route }) {
    navigation.navigate("Add Note");
  };
 
+ function updateNote(id, text) {
+  navigation.navigate("Update Note", id, text);
+};
 
  function deleteNote(id) {
    console.log("Deleting ", id, count++);
@@ -110,7 +116,7 @@ export default function NotesScreen({ navigation, route }) {
  };
  
 
-  let iconName;
+ let iconName;
 
  function renderItem({ item }) {
     iconName = item.done ? 'checkbox-outline' : 'checkbox' ;
@@ -122,11 +128,10 @@ export default function NotesScreen({ navigation, route }) {
          paddingBottom: 20,
          borderBottomColor: "#ccc",
          borderBottomWidth: 1,
-         flexDirection: "row",
+         flexDirection: "row-reverse",
          justifyContent: "space-between",
        }}
      >
-       <Text style={{ textAlign: "left", fontSize: 16 }}>{item.title}</Text>
        <TouchableOpacity onPress={ () => doneNote(item.id)}>
          <Ionicons
            name={iconName} 
@@ -135,6 +140,8 @@ export default function NotesScreen({ navigation, route }) {
            style={{ marginLeft: 20 }}
          />
        </TouchableOpacity>
+       <Text onPress={ () => navigation.navigate("Update Note", {item})} style={{ textAlign: "left", fontSize: 16 }}>{item.title}</Text>
+
        <TouchableOpacity onPress={ () => deleteNote(item.id)}>
          <Entypo
            name="trash" 
@@ -147,6 +154,27 @@ export default function NotesScreen({ navigation, route }) {
      </View>
    );
  };
+
+ function UpdateScreen({ route }) {
+  console.log("UpdateScreen route", count++, {route});
+ // Destructure this object so we don't have to type route.params.red etc
+ const { red, green, blue } = route.params;
+
+ return (
+   <View
+     style={[
+       styles.container,
+       { backgroundColor: `rgb(${red}, ${green}, ${blue})` },
+     ]}
+   >
+     <View style={{ padding: 30 }}>
+       <Text style={styles.detailText}>Red: {red}</Text>
+       <Text style={styles.detailText}>Green: {green}</Text>
+       <Text style={styles.detailText}>Blue: {blue}</Text>
+     </View>
+   </View>
+ );
+}
 
  /* these codes will delete all
         <Text style={{ textAlign: "left", fontSize: 16 }}>{item.title}</Text>
@@ -169,7 +197,13 @@ export default function NotesScreen({ navigation, route }) {
        keyExtractor={(item) => item.id.toString()}
      />
    </View>
- );
+ /*  <NavigationContainer>
+     <Stack.Navigator>
+       <Stack.Screen name="Update Note" component={UpdateScreen} />
+     </Stack.Navigator>
+   </NavigationContainer> */
+   
+   );
 }
 
 const styles = StyleSheet.create({
