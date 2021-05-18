@@ -15,6 +15,7 @@ import UpdateScreen from "./screens/UpdateScreen";
 
 const Stack = createStackNavigator();
 
+/* test navigation
 function Update(route, navigation){
   console.log({route}, "update...");
   return(
@@ -30,7 +31,7 @@ function Update(route, navigation){
     </View>
   )
 }
-
+*/
 export default function App() {
   return (
     <NavigationContainer>
@@ -41,7 +42,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Add Note" component={AddScreen} />
-        <Stack.Screen name="Update Note" component={Update} />
+        <Stack.Screen name="Update Note" component={UpdateScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

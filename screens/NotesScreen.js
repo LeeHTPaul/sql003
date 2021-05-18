@@ -92,8 +92,12 @@ export default function NotesScreen({ navigation, route }) {
  };
 
  function updateNote(id, text) {
-  navigation.navigate("Update Note", id, text);
-};
+    db.transaction((tx) => {tx.executeSql(`UPDATE notes SET title=${text} WHERE id=${id}`);
+  },
+  null,
+  refreshNotes,
+  );
+  };
 
  function deleteNote(id) {
    console.log("Deleting ", id, count++);
@@ -155,6 +159,7 @@ export default function NotesScreen({ navigation, route }) {
    );
  };
 
+/*
  function UpdateScreen({ route }) {
   console.log("UpdateScreen route", count++, {route});
  // Destructure this object so we don't have to type route.params.red etc
@@ -175,6 +180,7 @@ export default function NotesScreen({ navigation, route }) {
    </View>
  );
 }
+*/
 
  /* these codes will delete all
         <Text style={{ textAlign: "left", fontSize: 16 }}>{item.title}</Text>

@@ -6,9 +6,9 @@ import {TextInput} from "react-native";
 
 export default function UpdateScreen( {route} , navigation) {
     const text1 = route.params.title;
-    const [text, setText] = useState({text1});
-    let countas = 0;
-    console.log("Inside updatescreen=", {route}, route.length, "count=", countas++);
+    const id1 = route.params.id;
+    let countUs = 0;
+    console.log("Inside updatescreen=", {route}, route.length, "count=", countUs++);
 
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
